@@ -2,29 +2,24 @@ import React, { useState } from "react";
 
 export const Task = () => {
 
+    const [newTask, setNewTask] = useState('')
     const [listTask, setListTask] = useState([]);
 
     const handleAddList = (event) => {
 
-        // Cuando se haga el submit no se recargue la pagina
         event.preventDefault();
 
-        if(event.target.addList.value) {
+        if (newTask.trim() != '') {
 
-            // IMPORTANTE: para recoger el valor del input hay que indicarlo a traves del
-            // id del input que en este caso es "addList"
             setListTask((copyList) => [...copyList, event.target.addList.value]);
         }
 
-
-        // Limpiamos el input para que no se quede el dato en el input
-        // FIX: si ponemos esta linea cuando vamos añadir la segunda tarea se envia vacia
-        // event.target.addList.value = "";
+        setNewTask('')
     }
 
     const deleteTask = (item) => {
-        
-       setListTask(copyList => copyList.filter(task => task !== item ))
+
+        setListTask(copyList => copyList.filter(task => task !== item))
     }
 
     return (
@@ -32,7 +27,7 @@ export const Task = () => {
 
             <form onSubmit={handleAddList}>
 
-                <input type="text" className="form-control" id="addList" placeholder="Add your task" />
+                <input type="text" className="form-control" id="addList" value={newTask} onChange={event => setNewTask(event.target.value)} placeholder="Add your task" />
             </form>
 
             {
@@ -47,7 +42,7 @@ export const Task = () => {
 
                         {listTask.map((item, index) => (
                             <li className="list-group-item item-list" key={index}>
-                                
+
                                 {item}
 
                                 <svg onClick={() => deleteTask(item)} xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" className="bi bi-trash icon" viewBox="0 0 16 16">
